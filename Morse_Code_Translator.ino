@@ -13,6 +13,8 @@ const int potPin = A0;
 int freqValue = 0;
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 20, 4);
 
+int cursorX = 0;
+
 void setup() {
   // put your setup code here, to run once:
   pinMode(dotLED, OUTPUT);
@@ -23,12 +25,15 @@ void setup() {
   Serial.begin(9600);
   lcd.init();
   lcd.backlight();
-  lcd.setCursor(0, 0);
+  lcd.setCursor(cursorX, 0);
   lcd.print("Hello world");
+  lcd.blink();
 }
 
 void loop() {
     freqValue = analogRead(potPin);
+    lcd.setCursor(cursorX, 0);
+    
 //  digitalWrite(dotLED, HIGH);
 //  digitalWrite(dashLED, LOW);
 //  tone(buzzerPin, 1000);
@@ -37,11 +42,35 @@ void loop() {
 //  digitalWrite(dashLED, HIGH);
 //  noTone(buzzerPin);
 //  delay(1000);
-  Serial.print("pot value: ");
-  Serial.println(freqValue);
+
+  delay(100);
+
   if(digitalRead(leftButton)){
-    digitalWrite(dotLED, HIGH);
-  }else{
-    digitalWrite(dotLED, LOW);
+    moveCursor(-1);
   }
+
+  if(digitalRead(centerButton)){
+   changeCharacter();
+   
+  }
+  
+  if(digitalRead(rightButton)){
+    moveCursor(1);
+  }
+
+}
+
+void moveCursor(int direction){
+  if(direction == -1 && cursorX - direction >= 0){ //move left
+    cursorX -= 1;
+  }
+
+  if(direction == 1 && cursorX + direction < 16){ //move right
+    cursorX += 1;
+  }
+  
+}
+
+void changeCharacter(){
+  Serial.println("changing char");  
 }
