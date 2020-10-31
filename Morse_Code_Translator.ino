@@ -1,24 +1,31 @@
-const int dotLED = 2;
-const int dashLED = 3;
+
+const int dashLED = 2;
+const int dotLED = 3;
 const int buzzerPin = 4;
-const int centerButton = 5;
-const int rightButton = 6;
-const int leftButton = 7;
-const int potPin = A3;
+//const int centerButton = 5;
+//const int rightButton = 6;
+//const int leftButton = 7;
+//const int potPin = A3;
 
 void setup() {
   // put your setup code here, to run once:
   pinMode(dotLED, OUTPUT);
   pinMode(dashLED, OUTPUT);
-  pinMode(buzzerPin, OUTPUT);
-  pinMode(centerButton, INPUT);
-  pinMode(rightButton, INPUT);
-  pinMode(leftButton, INPUT);
-  pinMode(potPin, INPUT);
+//  pinMode(centerButton, INPUT);
+//  pinMode(rightButton, INPUT);
+//  pinMode(leftButton, INPUT);
+//  pinMode(potPin, INPUT);
   Serial.begin(9600);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-
+  digitalWrite(dotLED, HIGH);
+  digitalWrite(dashLED, LOW);
+  tone(buzzerPin, 1000);
+  delay(1000);
+  digitalWrite(dotLED, LOW);
+  digitalWrite(dashLED, HIGH);
+  noTone(buzzerPin);
+  delay(1000);
 }
