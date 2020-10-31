@@ -13,6 +13,9 @@ const int potPin = A0;
 int freqValue = 0;
 LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 20, 4);
 
+char codeArray[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' '};
+char topRow[16];
+
 int cursorX = 0;
 
 void setup() {
@@ -25,8 +28,7 @@ void setup() {
   Serial.begin(9600);
   lcd.init();
   lcd.backlight();
-  lcd.setCursor(cursorX, 0);
-  lcd.print("Hello world");
+  intitializeBoard();
   lcd.blink();
 }
 
@@ -43,7 +45,7 @@ void loop() {
 //  noTone(buzzerPin);
 //  delay(1000);
 
-  delay(100);
+  delay(300);
 
   if(digitalRead(leftButton)){
     moveCursor(-1);
@@ -58,6 +60,8 @@ void loop() {
     moveCursor(1);
   }
 
+  delay(300);
+
 }
 
 void moveCursor(int direction){
@@ -71,6 +75,37 @@ void moveCursor(int direction){
   
 }
 
-void changeCharacter(){
-  Serial.println("changing char");  
+void changeCharacter(){  
+  Serial.print("next char");
+  Serial.println(getNextChar(topRow[cursorX]));
+  lcd.print(getNextChar(topRow[cursorX]));
+}
+
+char getNextChar(char currentChar){
+  int charIndex = getLetterIndex(currentChar);
+   Serial.print(charIndex);
+  if(charIndex == 26){
+    topRow[cursorX] = codeArray[0];
+    return codeArray[0];
+  }else{
+    topRow[cursorX] = codeArray[charIndex + 1];
+    return codeArray[charIndex + 1];
+  }
+}
+
+void intitializeBoard() {
+  for (int i = 0; i < sizeof(topRow); i++) {
+     lcd.setCursor(i, 0);
+     lcd.print("");
+  }
+  lcd.setCursor(0, 0);
+}
+
+int getLetterIndex(char letter) {
+  for (int i = 0; i < sizeof(codeArray); i++) {
+    if (codeArray[i] == letter) {
+      return i;
+    }
+  }
+  return 26;
 }
