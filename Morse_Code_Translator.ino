@@ -58,7 +58,7 @@ void loop() {
     moveCursor(1);
   }
 
-  delay(300);
+  delay(50);
 
 }
 
