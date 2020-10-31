@@ -39,10 +39,12 @@ A potentiometer provides a variable resistance when it is turned. When we turn t
 
 ### Piezo Speaker Functionality
 
-
+A piezo speaker utilizes piezo electic material (material that changes shape when a voltage is applied which induces the base material to vibrate and create sound waves) in order to make a sound. The piezo speaker makes a sound when an electrical current is applied. We can alter the sound frequency the speaker emits by adjusting the amount of electrical current that is applied to the speaker. In this project the piezo speaker emits a high pitched noise to indicate a dot and a lower pitched tone to signify a dash.
 
 
 ### LED Functionality
+
+An LED (short for light emitting diode) contains semiconducters which emits light when a current passes through it. For this project we are using two LEDs which indicates a dot or a dash (red: dot, white: dash).
 
 ## Morse Code Algorithm
 
