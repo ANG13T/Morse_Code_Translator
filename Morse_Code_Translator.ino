@@ -45,8 +45,6 @@ void loop() {
 //  noTone(buzzerPin);
 //  delay(1000);
 
-  delay(300);
-
   if(digitalRead(leftButton)){
     moveCursor(-1);
   }
@@ -77,20 +75,21 @@ void moveCursor(int direction){
 
 void changeCharacter(){  
   Serial.print("next char");
-  Serial.println(getNextChar(topRow[cursorX]));
   lcd.print(getNextChar(topRow[cursorX]));
 }
 
 char getNextChar(char currentChar){
+  int result;
   int charIndex = getLetterIndex(currentChar);
    Serial.print(charIndex);
-  if(charIndex == 26){
-    topRow[cursorX] = codeArray[0];
-    return codeArray[0];
+  if(charIndex + 1 < sizeof(codeArray)){
+    result = charIndex + 1;
   }else{
-    topRow[cursorX] = codeArray[charIndex + 1];
-    return codeArray[charIndex + 1];
+    result = 0;
   }
+
+  topRow[cursorX]= codeArray[result];
+  lcd.print(codeArray[result]);
 }
 
 void intitializeBoard() {
