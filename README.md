@@ -15,7 +15,7 @@ This projects translates user input (text) from the LCD to morse code indicated 
 
 ## Schematic (excluding LCD)
 
-![design image](https://github.com/angelina-tsuboi/LCD_Visual_Display/blob/main/images/base_design.png)
+![design image](https://github.com/angelina-tsuboi/Morse_Code_Translator/blob/main/images/design.png)
 
 The CAD I was using didn't have the LCD (I2C). Wiring the LCD should be pretty simple as long as you look over the source code.
 
@@ -53,6 +53,6 @@ I typically don't provide an overview of the code, but this project contains com
 
 ## Completed Project
 
-![project photo](https://github.com/angelina-tsuboi/LCD_Visual_Display/blob/main/images/completed-project.jpg)
+![project photo](https://github.com/angelina-tsuboi/Morse_Code_Translator/blob/main/images/final.jpg)
 
 
