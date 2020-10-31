@@ -1,3 +1,6 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
 
 const int dashLED = 2;
 const int dotLED = 3;
@@ -8,6 +11,7 @@ const int leftButton = 7;
 const int potPin = A0;
 
 int freqValue = 0;
+LiquidCrystal_I2C lcd = LiquidCrystal_I2C(0x27, 20, 4);
 
 void setup() {
   // put your setup code here, to run once:
@@ -17,6 +21,10 @@ void setup() {
   pinMode(rightButton, INPUT);
   pinMode(leftButton, INPUT);
   Serial.begin(9600);
+  lcd.init();
+  lcd.backlight();
+  lcd.setCursor(0, 0);
+  lcd.print("Hello world");
 }
 
 void loop() {
