@@ -48,7 +48,7 @@ An LED (short for light emitting diode) contains semiconducters which emits ligh
 
 ## Morse Code Algorithm
 
-I typically don't provide an overview of the code, but this project contains complex algorithm which converts letters to morse code values (dots and dashes).
+The morse code algorithm used in this sketch is starightforward. The function **translateMorse** loops through all the characters customized by the user via the *topRow* array. For each character is runs the function **morseEncode** which uses a switch statement in order to return a char array containing a sequence of dots and dashes corresponding to that letter. After that, if the output of **morseEncode** was blank it would stop the buzzer from emitting noise and delay the program to indicate a space. If the output of **morseEncode** was a char array of dots and dashes, the program would loop over each dot or dash and it would light up either the red LED (dot) or the white LED (dash) alongside a noise from the piezo speaker with differing frequencies depending on whether it is a dot or dash.
 
 
 ## Completed Project
