@@ -1,3 +1,4 @@
+#include <arduino-timer.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
 
@@ -18,6 +19,7 @@ char codeArray[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 
 char topRow[16];
 
 int cursorX = 0;
+auto timer = timer_create_default();
 
 void setup() {
   // put your setup code here, to run once:
@@ -35,8 +37,7 @@ void setup() {
 }
 
 void loop() {
-    digitalWrite(dashLED, HIGH);
-    digitalWrite(dotLED, HIGH);
+    timer.tick();
     freqValue = analogRead(potPin);
     lcd.setCursor(cursorX, 0);
 
@@ -80,17 +81,7 @@ void translateMorse(){
         char morseSign = morse.charAt(j);
         Serial.print("morse sign: ");
         Serial.println(morseSign);
-        if(morseSign == "."){
-            digitalWrite(dotLED, HIGH);
-            digitalWrite(dashLED, LOW);
-            tone(buzzerPin, 1000);
-            delay(100);
-        }else{
-            digitalWrite(dotLED, LOW);
-            digitalWrite(dashLED, HIGH);
-            tone(buzzerPin, 500);
-            delay(100);
-        }
+        timer.in(300, runMorse, morseSign);
       }
     }
     Serial.println(morse);
@@ -189,6 +180,18 @@ void intitializeBoard() {
      lcd.print("");
   }
   lcd.setCursor(0, 0);
+}
+
+void runMorse(char morseSign){
+  if(morseSign == "."){
+      digitalWrite(dotLED, HIGH);
+      digitalWrite(dashLED, LOW);
+//      tone(buzzerPin, 1000);
+  }else{
+      digitalWrite(dotLED, LOW);
+      digitalWrite(dashLED, HIGH);
+//      tone(buzzerPin, 500);
+  }
 }
 
 int getLetterIndex(char letter) {
