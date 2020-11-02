@@ -45,20 +45,22 @@ void loop() {
 //  noTone(buzzerPin);
 //  delay(1000);
 
+  delay(200);
   if(digitalRead(leftButton)){
     moveCursor(-1);
+    delay(50);
   }
 
   if(digitalRead(centerButton)){
    changeCharacter();
+   delay(50);
    
   }
   
   if(digitalRead(rightButton)){
     moveCursor(1);
+    delay(50);
   }
-
-  delay(50);
 
 }
 
@@ -70,109 +72,116 @@ void moveCursor(int direction){
   if(direction == 1 && cursorX + direction < 16){ //move right
     cursorX += 1;
   }
-  
 }
 
-void translateMorse(){
-  for(int i = 0; i < sizeof(topRow); i++){
-    char[] morse = morseEncode(topRow[i]);
-    if(morse == ""){
-      noTone(buzzerPin);
-      delay(100);
-    }else{
-      for(int j = 0; j < sizeof(morse); j++){
-        char morseSign = morse[j];
-        if(morseSign == "."){
-            digitalWrite(dotLED, HIGH);
-            digitalWrite(dashLED, LOW);
-            tone(buzzerPin, 1000);
-        }else{
-            digitalWrite(dotLED, LOW);
-            digitalWrite(dashLED, HIGH);
-            tone(buzzerPin, 500);
-        }
-        delay(100);
-      }
-    }
-  }
-}
+//void translateMorse(){
+//  for(int i = 0; i < sizeof(topRow); i++){
+//    String morse = morseEncode(topRow[i]);
+//    if(morse == ""){
+//      noTone(buzzerPin);
+//      delay(100);
+//    }else{
+//      for(int j = 0; j < sizeof(morse); j++){
+//        char morseSign = morse.charAt(j);
+//        if(morseSign == "."){
+//            digitalWrite(dotLED, HIGH);
+//            digitalWrite(dashLED, LOW);
+//            tone(buzzerPin, 1000);
+//        }else{
+//            digitalWrite(dotLED, LOW);
+//            digitalWrite(dashLED, HIGH);
+//            tone(buzzerPin, 500);
+//        }
+//        delay(100);
+//      }
+//    }
+//  }
+//}
 
-char[] morseEncode(char letter){
-  switch(letter){
-    case 'a': 
-        return ".-"; 
-    case 'b': 
-        return "-..."; 
-    case 'c': 
-        return "-.-."; 
-    case 'd': 
-        return "-.."; 
-    case 'e': 
-        return "."; 
-    case 'f': 
-        return "..-."; 
-    case 'g': 
-        return "--."; 
-    case 'h': 
-        return "...."; 
-    case 'i': 
-        return ".."; 
-    case 'j': 
-        return ".---"; 
-    case 'k': 
-        return "-.-"; 
-    case 'l': 
-        return ".-.."; 
-    case 'm': 
-        return "--"; 
-    case 'n': 
-        return "-."; 
-    case 'o': 
-        return "---"; 
-    case 'p': 
-        return ".--."; 
-    case 'q': 
-        return "--.-"; 
-    case 'r': 
-        return ".-."; 
-    case 's': 
-        return "..."; 
-    case 't': 
-        return "-"; 
-    case 'u': 
-        return "..-"; 
-    case 'v': 
-        return "...-"; 
-    case 'w': 
-        return ".--"; 
-    case 'x': 
-        return "-..-"; 
-    case 'y': 
-        return "-.--"; 
-    // for space 
-    case 'z': 
-        return "--.."; 
-   } 
-   return "";  
-}
+//String morseEncode(char letter){
+//  switch(letter){
+//    case 'A': 
+//        return ".-"; 
+//    case 'B': 
+//        return "-..."; 
+//    case 'C': 
+//        return "-.-."; 
+//    case 'D': 
+//        return "-.."; 
+//    case 'E': 
+//        return "."; 
+//    case 'F': 
+//        return "..-."; 
+//    case 'G': 
+//        return "--."; 
+//    case 'H': 
+//        return "...."; 
+//    case 'I': 
+//        return ".."; 
+//    case 'J': 
+//        return ".---"; 
+//    case 'K': 
+//        return "-.-"; 
+//    case 'L': 
+//        return ".-.."; 
+//    case 'M': 
+//        return "--"; 
+//    case 'N': 
+//        return "-."; 
+//    case 'O': 
+//        return "---"; 
+//    case 'P': 
+//        return ".--."; 
+//    case 'Q': 
+//        return "--.-"; 
+//    case 'R': 
+//        return ".-."; 
+//    case 'S': 
+//        return "..."; 
+//    case 'T': 
+//        return "-"; 
+//    case 'U': 
+//        return "..-"; 
+//    case 'V': 
+//        return "...-"; 
+//    case 'W': 
+//        return ".--"; 
+//    case 'X': 
+//        return "-..-"; 
+//    case 'Y': 
+//        return "-.--"; 
+//    // for space 
+//    case 'Z': 
+//        return "--.."; 
+//   } 
+//   return "";  
+//}
 
 void changeCharacter(){  
   Serial.print("next char");
-  lcd.print(getNextChar(topRow[cursorX]));
+  char nextChar = getNextChar(topRow[cursorX]);
+  Serial.println(nextChar);
+  Serial.println(topRow[cursorX]);
+  topRow[cursorX] = nextChar;
+  Serial.println(topRow[cursorX]);
+  lcd.print(nextChar);
+  
 }
 
 char getNextChar(char currentChar){
-  int result;
-  int charIndex = getLetterIndex(currentChar);
-   Serial.print(charIndex);
-  if(charIndex + 1 < sizeof(codeArray)){
-    result = charIndex + 1;
-  }else{
-    result = 0;
-  }
+  Serial.print("current char");
+  Serial.print(currentChar);
+  int letterIndex = getLetterIndex(currentChar);
 
-  topRow[cursorX]= codeArray[result];
-  lcd.print(codeArray[result]);
+  Serial.println(letterIndex);
+
+  if(letterIndex >= sizeof(codeArray)){
+      Serial.println(codeArray[0]);
+      return codeArray[0];
+  }else{
+    Serial.println(codeArray[letterIndex + 1]);
+    return codeArray[letterIndex + 1];
+  }
 }
 
 void intitializeBoard() {
@@ -189,5 +198,5 @@ int getLetterIndex(char letter) {
       return i;
     }
   }
-  return 26;
+  return 27;
 }
